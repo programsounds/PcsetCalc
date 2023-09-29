@@ -1,0 +1,19 @@
+# Python bytecode-complied / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyCharm project setting directory
+.idea/
+
+# Ignore macOS system files
+.DS_Store
+
+# QtDesigner directory
+#QtDesigner/
+
+# IconDesign directory
+#IconDesign/
+
+# AppBuild directory
+AppBuild/

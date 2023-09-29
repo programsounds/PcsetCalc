@@ -1,0 +1,37 @@
+pyuci5
+
+Main Window
+
+/Users/yota/anaconda/envs/python2/bin/pyuic5 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Main.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_main_ui.py
+
+Pref Window
+
+/Users/yota/anaconda/envs/python2/bin/pyuic5 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Connection.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_connection_ui.py
+
+pyrrc5
+
+/Users/yota/anaconda/envs/python2/bin/pyrcc5 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/pcsetcalc_resources.qrc -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_resources_rc.py
+
+Combined:
+
+/Users/yota/anaconda/envs/python2/bin/pyuic5 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Main.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_main_ui.py; /Users/yota/anaconda/envs/python2/bin/pyuic5 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Connection.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_connection_ui.py; /Users/yota/anaconda/envs/python2/bin/pyrcc5 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/pcsetcalc_resources.qrc -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_resources_rc.py
+
+--------------------------------------------------------------------------------
+
+pyuci4
+
+Main Window
+
+/Users/yota/anaconda/envs/python2/bin/pyuic4 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Main.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_main_ui.py
+
+Pref Window
+
+/Users/yota/anaconda/envs/python2/bin/pyuic4 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Connection.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_connection_ui.py
+
+pyrrc
+
+/Users/yota/anaconda/envs/python2/bin/pyrcc4 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/pcsetcalc_resources.qrc -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_resources_rc.py
+
+Combined:
+
+/Users/yota/anaconda/envs/python2/bin/pyuic4 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Main.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_main_ui.py; /Users/yota/anaconda/envs/python2/bin/pyuic4 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/PCSetCalc_Connection.ui -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_connection_ui.py; /Users/yota/anaconda/envs/python2/bin/pyrcc4 /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/QtDesigner/pcsetcalc_resources.qrc -o /Users/yota/Data/Programming/Python/PyCharmProjects/PCSetCalc/pcsetcalc_resources_rc.py

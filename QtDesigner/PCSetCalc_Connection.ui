@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConnectionDialog</class>
+ <widget class="QDialog" name="ConnectionDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>260</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Connection</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Global setting */
+QWidget {
+	font: 11pt &quot;Verdana&quot;;
+	color: rgb(189, 189, 189); /* 400 */
+	background-color: rgb(33, 33, 33); /* 900 */
+	}
+
+/*  Dialog Button Box */
+ QDialogButtonBox {
+	button-layout: 1; 
+	min-width: 200px;
+	}
+QDialogButtonBox QPushButton {
+	border: none;
+	min-width: 40px;
+	min-height: 20px;
+	padding-left: 12px;
+	padding-top: 2px;
+	padding-right: 12px;
+	padding-bottom: 5px;
+	margin: 2px;
+	background-color: rgb(66, 66, 66); /* 800 */
+	}
+QDialogButtonBox QPushButton:pressed, QPushButton:checked {
+	color: rgb(224, 224, 224); /* 300 */
+	background-color: rgb(97, 97, 97); /* 700 */
+	}
+
+/* Combo Box { button-layout: 2 }*/
+QComboBox {
+	border: none;
+	color: rgb(189, 189, 189); /* 400 */
+	background-color: rgb(66, 66, 66); /* 800 */
+	}
+QComboBox::drop-down {
+	border: none;
+	background-color: rgb(97, 97, 97); /* 700 */
+	width: 15px;
+	}
+QComboBox::down-arrow {
+	image: url(:/Icons/Images/DownArrow_Silver_01.png); 
+	width: 10px;
+	height: 10px;
+	}
+QComboBox QAbstractItemView {
+    border: none;
+	background-color: rgb(52, 52, 52); /* 800+ */
+	min-width: 100px;
+	padding: 5px;
+}</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>27</x>
+     <y>185</y>
+     <width>339</width>
+     <height>56</height>
+    </rect>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelMIDIInPOrt">
+   <property name="geometry">
+    <rect>
+     <x>41</x>
+     <y>73</y>
+     <width>69</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>MIDI In Port</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelUDPPort">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>120</y>
+     <width>50</width>
+     <height>14</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>UDP Port</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBoxUDPPort">
+   <property name="geometry">
+    <rect>
+     <x>119</x>
+     <y>115</y>
+     <width>104</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>104</width>
+     <height>26</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>104</width>
+     <height>26</height>
+    </size>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <item>
+    <property name="text">
+     <string>3000</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3001</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3002</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3003</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3004</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3005</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3006</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3007</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3008</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3009</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBoxMIDIInPort">
+   <property name="geometry">
+    <rect>
+     <x>119</x>
+     <y>69</y>
+     <width>243</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>243</width>
+     <height>26</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>243</width>
+     <height>26</height>
+    </size>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="pcsetcalc_resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>243</x>
+     <y>161</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>311</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

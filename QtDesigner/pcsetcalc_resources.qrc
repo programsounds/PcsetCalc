@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>Images/Refresh_Grey400.png</file>
+    <file>Images/DownArrow_Silver_01.png</file>
+    <file>Images/DownArrow_Silver_02.png</file>
+    <file>Images/DownArrow_Silver_03.png</file>
+  </qresource>
+</RCC>
