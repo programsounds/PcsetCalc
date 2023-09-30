@@ -3,12 +3,12 @@
 import sys
 import os.path
 import json
-from PyQt5 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 import rtmidi
 import OSC
-from pcsets.pcset import Pcset
-from pcsets.query import toPFStr, fromPFStr, catalog
-import pcsets.constants as c
+from pcpy.pcset import Pcset
+from pcpy.query import toPFStr, fromPFStr, catalog
+import pcpy.constants as c
 from pcsetcalc_main_ui import Ui_MainWindow
 from pcsetcalc_connection_ui import Ui_ConnectionDialog
 
