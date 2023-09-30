@@ -225,7 +225,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Show dialog boxes
         self.ui.actionMIDI_OSC.triggered.connect(self.showConnectionDialog)
 
-    # PC input and peripheral methods -----------------------------------------------
+    # PC input and peripheral methods -----------------------------------------
 
     def inputPC(self, pc, state):
         """
@@ -362,7 +362,7 @@ class MainWindow(QtWidgets.QMainWindow):
             with open("preferences.json", "w") as outfile:
                 json.dump(pref, fp=outfile, indent=4, sort_keys=True)
 
-    # Set profile query and calculation methods -------------------------------------
+    # Set profile query and calculation methods -------------------------------
 
     def setName(self, pcSetObj):
         """
@@ -519,7 +519,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 summary = "{0} ({1}, {2})".format(sn, lvl, matts)
             return summary
 
-    # Display methods ---------------------------------------------------------------
+    # Display methods ---------------------------------------------------------
 
     def updateDisplay(self):
         """Updates the display widgets"""
@@ -699,15 +699,18 @@ class MainWindow(QtWidgets.QMainWindow):
              [SN, MA, sym, count, (Z-corr)]]
         """
         self.resetMSCTables()
-        nexus = str(self.ui.comboBoxNexus.itemText(self.ui.comboBoxNexus.currentIndex()))
+        nexus = str(self.ui.comboBoxNexus.itemText(
+            self.ui.comboBoxNexus.currentIndex()))
         for card in ["3", "4", "6"]:
             table = self.mscTables[card]
-            members = catalog["MSC"][nexus][card]  # A list of dicts, each dict = a member
+            # A list of dicts, each dict = a member
+            members = catalog["MSC"][nexus][card]
             row = 0
             for member in members:
                 table[row][0].setText(member["SN"])
                 table[row][1].setText(" ".join(member["MA"]))
-                table[row][2].setText(", ".join(str(i) for i in member["symmetry"]))
+                table[row][2].setText(
+                    ", ".join(str(i) for i in member["symmetry"]))
                 table[row][3].setText(str(member["inclusion"]))
                 if card != "3":
                     zcorr = member["Z-corr"]
@@ -835,7 +838,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for label in self.colLabelsInner + self.colLabelsOuter:
             self.setStyleSheetColLabels(label, 0)
 
-    # Operation methods -------------------------------------------------------------
+    # Operation methods -------------------------------------------------------
 
     def undo(self):
         """
@@ -900,7 +903,8 @@ class MainWindow(QtWidgets.QMainWindow):
         members in the table.
         """
         sn = self.ui.comboBoxTargetSCs.currentText()
-        if (sn[0] != "-") and (sn[0] != str(self.card)) and (1 <= self.card <= 11):
+        if (sn[0] != "-") and (sn[0] != str(self.card)) and (
+                1 <= self.card <= 11):
             self.resetTargetSCMemberTable()
             sn = str(sn).split()[0]
             pf = fromPFStr(catalog["SC"][sn]["PF"])
@@ -910,7 +914,7 @@ class MainWindow(QtWidgets.QMainWindow):
             elif len(pf) > self.card:
                 members = self.pcSet.complementation(pf)
             # members is a variable for the target SC members: it is a list
-            #   of tuples, each tuple contains two sets ({memberPCs}, {diffPCs}).
+            # of tuples, each tuple contains two sets ({memberPCs}, {diffPCs}).
             if members != []:
                 row = 0
                 for member, diff in members:

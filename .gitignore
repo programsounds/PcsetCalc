@@ -17,3 +17,6 @@ __pycache__/
 
 # AppBuild directory
 AppBuild/
+
+# Miscellaneous files folder
+Misc/

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>PCSetCalc</string>
+   <string>PcsetCalc</string>
   </property>
   <property name="styleSheet">
    <string notr="true">/* Global setting */
@@ -451,19 +451,19 @@ QFrame#frameHEX QLabel  {
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
-    <attribute name="horizontalHeaderDefaultSectionSize">
+    <attribute name="horizontalHeaderMinimumSectionSize">
      <number>27</number>
     </attribute>
-    <attribute name="horizontalHeaderMinimumSectionSize">
+    <attribute name="horizontalHeaderDefaultSectionSize">
      <number>27</number>
     </attribute>
     <attribute name="verticalHeaderVisible">
      <bool>false</bool>
     </attribute>
-    <attribute name="verticalHeaderDefaultSectionSize">
+    <attribute name="verticalHeaderMinimumSectionSize">
      <number>27</number>
     </attribute>
-    <attribute name="verticalHeaderMinimumSectionSize">
+    <attribute name="verticalHeaderDefaultSectionSize">
      <number>27</number>
     </attribute>
     <attribute name="verticalHeaderStretchLastSection">
@@ -735,10 +735,10 @@ QFrame#frameHEX QLabel  {
     <attribute name="verticalHeaderVisible">
      <bool>false</bool>
     </attribute>
-    <attribute name="verticalHeaderDefaultSectionSize">
+    <attribute name="verticalHeaderMinimumSectionSize">
      <number>25</number>
     </attribute>
-    <attribute name="verticalHeaderMinimumSectionSize">
+    <attribute name="verticalHeaderDefaultSectionSize">
      <number>25</number>
     </attribute>
     <row>
@@ -1579,7 +1579,6 @@ QFrame#frameHEX QLabel  {
      <font>
       <family>Verdana</family>
       <pointsize>11</pointsize>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
@@ -3068,7 +3067,7 @@ QFrame#frameHEX QLabel  {
      <x>0</x>
      <y>0</y>
      <width>1440</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEdit">
