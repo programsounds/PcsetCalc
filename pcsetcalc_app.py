@@ -975,7 +975,8 @@ class MainWindow(QtWidgets.QMainWindow):
         item = table.item(row, 0)
         sn = item.text()
         if self.card != 0 and self.card != int(sn[0]):
-            index = self.ui.comboBoxTargetSCs.findText(sn, QtCore.Qt.MatchContains)
+            index = self.ui.comboBoxTargetSCs.findText(sn,
+                                                       QtCore.Qt.MatchFlag.MatchContains)
             self.ui.comboBoxTargetSCs.setCurrentIndex(index)
             self.createTargetSCMembers()
 
