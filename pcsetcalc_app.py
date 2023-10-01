@@ -286,15 +286,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.card = len(self.pcset)
         self.nf = self.pcset.normalForm()
         self.pf = self.pcset.primeForm()
-        self.sn = self.setName(self.pcset)
-        self.lvl = self.transformationLevel(self.pcset)
+        self.sn = MainWindow.setName(self.pcset)
+        self.lvl = MainWindow.transformationLevel(self.pcset)
         self.matts = self.modalAttributes(self.pcset)
-        self.icv = self.intervalClassVector(self.pcset)
-        self.iv = self.indexVector(self.pcset)
-        self.lcomp = self.literalComplement(self.pcset)
-        self.acomp = self.abstractComplement(self.pcset)
-        self.zcorr = self.zCorrespondent(self.pcset)
-        self.mcomps = self.modalComplements(self.pcset)
+        self.icv = MainWindow.intervalClassVector(self.pcset)
+        self.iv = MainWindow.indexVector(self.pcset)
+        self.lcomp = MainWindow.literalComplement(self.pcset)
+        self.acomp = MainWindow.abstractComplement(self.pcset)
+        self.zcorr = MainWindow.zCorrespondent(self.pcset)
+        self.mcomps = MainWindow.modalComplements(self.pcset)
         self.summary = self.setSummary(self.pcset)
 
     def resetPCSet(self):
@@ -370,7 +370,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Set profile query and calculation methods -------------------------------
 
-    def setName(self, pcsetObj):
+    @staticmethod
+    def setName(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a str for the set name of pf.
@@ -381,7 +382,8 @@ class MainWindow(QtWidgets.QMainWindow):
             pf = toPFStr(pcsetObj.primeForm())
             return catalog["PFToSN"][pf]
 
-    def transformationLevel(self, pcsetObj):
+    @staticmethod
+    def transformationLevel(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a str for the most basic transformation level of the input set:
@@ -398,7 +400,8 @@ class MainWindow(QtWidgets.QMainWindow):
             lvls.append("T" + str(j) + "I")
         return lvls[0]
 
-    def modalAttributes(self, pcsetObj):
+    @staticmethod
+    def modalAttributes(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a list of the modal attributes of the input set:
@@ -419,7 +422,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 matts.append("D")
             return matts
 
-    def intervalClassVector(self, pcsetObj):
+    @staticmethod
+    def intervalClassVector(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a list for the ICV of the input set.
@@ -429,7 +433,8 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             return pcsetObj.icv()
 
-    def indexVector(self, pcsetObj):
+    @staticmethod
+    def indexVector(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a list for the index vector of the input set.
@@ -439,7 +444,8 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             return pcsetObj.indexVector()
 
-    def literalComplement(self, pcsetObj):
+    @staticmethod
+    def literalComplement(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a list for the literal complement of the input set:
@@ -450,7 +456,8 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             return Pcset(pcsetObj.complement()).normalForm()
 
-    def abstractComplement(self, pcsetObj):
+    @staticmethod
+    def abstractComplement(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a list for the abstract complement of the input set:
@@ -461,13 +468,14 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             return Pcset(pcsetObj.complement()).primeForm()
 
-    def zCorrespondent(self, pcsetObj):
+    @staticmethod
+    def zCorrespondent(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a str of the set name of Z-correspondent of the input set:
             an empty str is returned when it's not Z-related.
         """
-        sn = self.setName(pcsetObj)
+        sn = MainWindow.setName(pcsetObj)
         # Z-related sets are only card between 4 and 8
         if not (4 <= len(pcsetObj) <= 8):
             return ""
@@ -478,7 +486,8 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 return ""
 
-    def modalComplements(self, pcsetObj):
+    @staticmethod
+    def modalComplements(pcsetObj):
         """
         :param pcsetObj: a Pcset object for the input set.
         :return: a dict (key=colName(str), val=mcomp(set)) for modal complements
@@ -516,8 +525,8 @@ class MainWindow(QtWidgets.QMainWindow):
             nf = ",".join(str(pc) for pc in self.nf)
             return nf
         else:
-            sn = self.setName(pcsetObj)
-            lvl = self.transformationLevel(pcsetObj)
+            sn = MainWindow.setName(pcsetObj)
+            lvl = MainWindow.transformationLevel(pcsetObj)
             matts = " ".join(self.modalAttributes(pcsetObj))
             if matts == "":
                 summary = "{0} ({1})".format(sn, lvl)
@@ -926,7 +935,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 for member, diff in members:
                     m, d = Pcset(member), Pcset(diff)
                     memberNF = ",".join(str(pc) for pc in m.normalForm())
-                    memberLvl = self.transformationLevel(m)
+                    memberLvl = MainWindow.transformationLevel(m)
                     memberMA = " ".join(self.modalAttributes(m))
                     diffNF = ",".join(str(pc) for pc in d.normalForm())
                     if len(d) < 3:
