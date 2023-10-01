@@ -21,7 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.setGeometry(0, 0, 1440, 830)
         # Initialize profile data
-        self.pcSet = Pcset({})  # Pcset object for operations with currently "active" pcs
+        self.pcset = Pcset({})  # Pcset object for operations with currently "active" pcs
         self.card = 0
         self.nf = []         # Normal form
         self.pf = []         # Prime form
@@ -241,9 +241,9 @@ class MainWindow(QtWidgets.QMainWindow):
         :param state: bool for set membership
         """
         if state:
-            self.pcSet.union({pc})
+            self.pcset.union({pc})
         else:
-            self.pcSet.difference({pc})
+            self.pcset.difference({pc})
         self.updateProfile()
         self.updateDisplay()
 
@@ -274,7 +274,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """Mutate the current set to the input set"""
         if archive:
             self.archive()
-        self.pcSet = Pcset(pcs)
+        self.pcset = Pcset(pcs)
         self.updateProfile()
         self.updateDisplay()
         self.resetOperations()
@@ -283,24 +283,24 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def updateProfile(self):
         """Update the instance variables for set profile"""
-        self.card = len(self.pcSet)
-        self.nf = self.pcSet.normalForm()
-        self.pf = self.pcSet.primeForm()
-        self.sn = self.setName(self.pcSet)
-        self.lvl = self.transformationLevel(self.pcSet)
-        self.matts = self.modalAttributes(self.pcSet)
-        self.icv = self.intervalClassVector(self.pcSet)
-        self.iv = self.indexVector(self.pcSet)
-        self.lcomp = self.literalComplement(self.pcSet)
-        self.acomp = self.abstractComplement(self.pcSet)
-        self.zcorr = self.zCorrespondent(self.pcSet)
-        self.mcomps = self.modalComplements(self.pcSet)
-        self.summary = self.setSummary(self.pcSet)
+        self.card = len(self.pcset)
+        self.nf = self.pcset.normalForm()
+        self.pf = self.pcset.primeForm()
+        self.sn = self.setName(self.pcset)
+        self.lvl = self.transformationLevel(self.pcset)
+        self.matts = self.modalAttributes(self.pcset)
+        self.icv = self.intervalClassVector(self.pcset)
+        self.iv = self.indexVector(self.pcset)
+        self.lcomp = self.literalComplement(self.pcset)
+        self.acomp = self.abstractComplement(self.pcset)
+        self.zcorr = self.zCorrespondent(self.pcset)
+        self.mcomps = self.modalComplements(self.pcset)
+        self.summary = self.setSummary(self.pcset)
 
     def resetPCSet(self):
         """Clears the pc set and reset the display"""
         self.archive()
-        self.pcSet = Pcset({})
+        self.pcset = Pcset({})
         self.resetProfile()
         self.resetDisplay()
 
@@ -324,7 +324,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def archive(self):
         """Archives the current pc set to undoStack"""
-        self.undoStack.insert(0, self.pcSet)
+        self.undoStack.insert(0, self.pcset)
         if len(self.undoStack) > 10:
             self.undoStack = self.undoStack[:10]
         self.redoStack = []
@@ -370,27 +370,27 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Set profile query and calculation methods -------------------------------
 
-    def setName(self, pcSetObj):
+    def setName(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a str for the set name of pf.
         """
-        if not (3 <= len(pcSetObj) <= 9):
+        if not (3 <= len(pcsetObj) <= 9):
             return ""
         else:
-            pf = toPFStr(pcSetObj.primeForm())
+            pf = toPFStr(pcsetObj.primeForm())
             return catalog["PFToSN"][pf]
 
-    def transformationLevel(self, pcSetObj):
+    def transformationLevel(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a str for the most basic transformation level of the input set:
             if it is a symmetrical set, the Tn level with the smallest transposition
             number represents the transformation level.
         """
-        if not (3 <= len(pcSetObj) <= 9):
+        if not (3 <= len(pcsetObj) <= 9):
             return ""
-        dct = pcSetObj.transformationLevels()
+        dct = pcsetObj.transformationLevels()
         lvls = []
         for i in dct["Tn"]:
             lvls.append("T" + str(i))
@@ -398,18 +398,18 @@ class MainWindow(QtWidgets.QMainWindow):
             lvls.append("T" + str(j) + "I")
         return lvls[0]
 
-    def modalAttributes(self, pcSetObj):
+    def modalAttributes(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a list of the modal attributes of the input set:
             each attribute is represented by a str.
         """
-        card = len(pcSetObj)
+        card = len(pcsetObj)
         if not (3 <= card <= 9):
             return []
         else:
             matts = []
-            ref = pcSetObj.referentialCollections()
+            ref = pcsetObj.referentialCollections()
             for col in c.REF_COLS:
                 if ref[col] == 2:
                     matts.append(col)
@@ -419,57 +419,57 @@ class MainWindow(QtWidgets.QMainWindow):
                 matts.append("D")
             return matts
 
-    def intervalClassVector(self, pcSetObj):
+    def intervalClassVector(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a list for the ICV of the input set.
         """
-        if not (2 <= len(pcSetObj) <= 9):
+        if not (2 <= len(pcsetObj) <= 9):
             return []
         else:
-            return pcSetObj.icv()
+            return pcsetObj.icv()
 
-    def indexVector(self, pcSetObj):
+    def indexVector(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a list for the index vector of the input set.
         """
-        if not (2 <= len(pcSetObj) <= 9):
+        if not (2 <= len(pcsetObj) <= 9):
             return [""] * 12
         else:
-            return pcSetObj.indexVector()
+            return pcsetObj.indexVector()
 
-    def literalComplement(self, pcSetObj):
+    def literalComplement(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a list for the literal complement of the input set:
             the returned set is in normal form.
         """
-        if len(pcSetObj) == 0:
+        if len(pcsetObj) == 0:
             return []
         else:
-            return Pcset(pcSetObj.complement()).normalForm()
+            return Pcset(pcsetObj.complement()).normalForm()
 
-    def abstractComplement(self, pcSetObj):
+    def abstractComplement(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a list for the abstract complement of the input set:
         the returned set is in prime form.
         """
-        if len(pcSetObj) == 0:
+        if len(pcsetObj) == 0:
             return []
         else:
-            return Pcset(pcSetObj.complement()).primeForm()
+            return Pcset(pcsetObj.complement()).primeForm()
 
-    def zCorrespondent(self, pcSetObj):
+    def zCorrespondent(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a str of the set name of Z-correspondent of the input set:
             an empty str is returned when it's not Z-related.
         """
-        sn = self.setName(pcSetObj)
+        sn = self.setName(pcsetObj)
         # Z-related sets are only card between 4 and 8
-        if not (4 <= len(pcSetObj) <= 8):
+        if not (4 <= len(pcsetObj) <= 8):
             return ""
         else:
             zcorr = catalog["SC"][sn]["Z-corr"]
@@ -478,47 +478,47 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 return ""
 
-    def modalComplements(self, pcSetObj):
+    def modalComplements(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a dict (key=colName(str), val=mcomp(set)) for modal complements
             of the input set. Sets that return their modal complements are those
             with no foreign pcs or in case of a hexachord, prime M.A.
             (i.e,. hexachords with one foreign pc).
         """
-        card = len(pcSetObj)
+        card = len(pcsetObj)
         dct = {}
         if not (3 <= card <= 9):
             return dct
-        mcomps = pcSetObj.modalComplements()
+        mcomps = pcsetObj.modalComplements()
         for name in c.REF_COLS:
             col = c.COL_DICT[name]
             mcomp = mcomps[name]
-            union = pcSetObj.getSet() | mcomp
+            union = pcsetObj.getSet() | mcomp
             # (set with no foreign pc but not col) or (hexachord with one foreign pc)
             if ((union == col) and (len(mcomp) != 0)) \
                     or ((card == 6) and (len(union) == len(col) + 1)):
                 dct[name] = mcomp
         return dct
 
-    def setSummary(self, pcSetObj):
+    def setSummary(self, pcsetObj):
         """
-        :param pcSetObj: a Pcset object for the input set.
+        :param pcsetObj: a Pcset object for the input set.
         :return: a str of the summary of the input set as: "SN (Tn/TnI, M.A.)".
         """
-        card = len(pcSetObj)
+        card = len(pcsetObj)
         if card == 0:
             return ""
         elif card == 1:
-            nf = pcSetObj.normalForm()
+            nf = pcsetObj.normalForm()
             return str(nf[0])
         elif card == 2 or (10 <= card <= 12):
             nf = ",".join(str(pc) for pc in self.nf)
             return nf
         else:
-            sn = self.setName(pcSetObj)
-            lvl = self.transformationLevel(pcSetObj)
-            matts = " ".join(self.modalAttributes(pcSetObj))
+            sn = self.setName(pcsetObj)
+            lvl = self.transformationLevel(pcsetObj)
+            matts = " ".join(self.modalAttributes(pcsetObj))
             if matts == "":
                 summary = "{0} ({1})".format(sn, lvl)
             else:
@@ -571,7 +571,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def showPCBtns(self):
         """Check the pcBtns with the updated pc set"""
-        for pc in self.pcSet:
+        for pc in self.pcset:
             self.pcBtns[pc].setChecked(True)
 
     def showNormalForm(self):
@@ -775,7 +775,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """Show the pc labels in referential collection displays"""
         for label in self.colLabelsInner + self.colLabelsOuter:
             pc = int(label.text())
-            if pc in self.pcSet:
+            if pc in self.pcset:
                 state = 1
             else:
                 state = 0
@@ -852,7 +852,7 @@ class MainWindow(QtWidgets.QMainWindow):
         at the index 0 in the undo stack.
         """
         if len(self.undoStack) != 0:
-            self.redoStack.insert(0, self.pcSet)
+            self.redoStack.insert(0, self.pcset)
             self.updatePCSet(self.undoStack.pop(0), archive=False)
 
     def redo(self):
@@ -861,7 +861,7 @@ class MainWindow(QtWidgets.QMainWindow):
         to that at the last index in the redo stack.
         """
         if len(self.redoStack) != 0:
-            self.undoStack.insert(0, self.pcSet)
+            self.undoStack.insert(0, self.pcset)
             self.updatePCSet(self.redoStack.pop(0), archive=False)
 
     def resetOperations(self):
@@ -877,7 +877,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.tn = []
             self.ui.lineEditTn.clear()
         else:
-            copy = self.pcSet.clone()
+            copy = self.pcset.clone()
             self.tn = copy.opT(n).normalForm()
             s = ",".join(str(pc) for pc in self.tn)
             self.ui.lineEditTn.setText(s)
@@ -893,7 +893,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if (n == -1) or (self.card == 0):
             self.ui.lineEditTnI.clear()
         else:
-            copy = self.pcSet.clone()
+            copy = self.pcset.clone()
             self.tni = copy.opTnI(n).normalForm()
             s = ",".join(str(pc) for pc in self.tni)
             self.ui.lineEditTnI.setText(s)
@@ -916,9 +916,9 @@ class MainWindow(QtWidgets.QMainWindow):
             pf = fromPFStr(catalog["SC"][sn]["PF"])
             members = []
             if len(pf) < self.card:
-                members = self.pcSet.inclusion(pf)
+                members = self.pcset.inclusion(pf)
             elif len(pf) > self.card:
-                members = self.pcSet.complementation(pf)
+                members = self.pcset.complementation(pf)
             # members is a variable for the target SC members: it is a list
             # of tuples, each tuple contains two sets ({memberPCs}, {diffPCs}).
             if members != []:
@@ -1079,7 +1079,7 @@ class WorkerMIDI(QtCore.QThread):
     def run(self):
         """
         Work thread process for parsing MIDI input data and generate pc input.
-        Update of the instance variable, pcSet, in the main thread MainWindow()
+        Update of the instance variable, pcset, in the main thread MainWindow()
         object is made through the custom Qt signal defined here.
         """
         noteOffs = set([])    # Pitches for suspended note-off messages
