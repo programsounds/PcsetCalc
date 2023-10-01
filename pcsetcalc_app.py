@@ -3,7 +3,7 @@
 import sys
 import os.path
 import json
-from typing import List
+from typing import List, Dict
 from PyQt6 import QtCore, QtWidgets
 import rtmidi
 import OSC
@@ -144,7 +144,7 @@ class MainWindow(QtWidgets.QMainWindow):
                                                       QtWidgets.QHeaderView.ResizeMode.Stretch)
         return MainWindow.makeTableItems(table, 20, 5)
 
-    def setupModalSetComplexTables(self):
+    def setupModalSetComplexTables(self) -> Dict[str, List[List[QtWidgets.QTableWidgetItem]]]:
         """
         Returns a dict of 3 key/val pairs where key is the cardinality of
         MSC members of the table, and val is a list of TableWidgetItems
