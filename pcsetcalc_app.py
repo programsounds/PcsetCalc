@@ -3,6 +3,7 @@
 import sys
 import os.path
 import json
+from typing import List
 from PyQt6 import QtCore, QtWidgets
 import rtmidi
 import OSC
@@ -111,7 +112,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         return MainWindow.makeTableItems(self.ui.tableIndexVector, 1, 12)
 
-    def setupModalComplementTable(self):
+    def setupModalComplementTable(self) -> List[List[QtWidgets.QTableWidgetItem]]:
         """
         Returns a list of TableWidgetItems for the modal complements.
         The list is structured for 3x3 table as:
