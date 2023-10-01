@@ -77,7 +77,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # Signal-slot connections
         self.makeConnections()
 
-    def makeTableItems(self, table, rows, cols):
+    @staticmethod
+    def makeTableItems(table, rows, cols):
         """
         Create TableWidgetItems in a table widget.
 
@@ -91,8 +92,9 @@ class MainWindow(QtWidgets.QMainWindow):
             rowItems = []
             for col in range(cols):
                 item = QtWidgets.QTableWidgetItem()
-                item.setFlags(QtCore.Qt.ItemIsEnabled)
-                item.setTextAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+                item.setFlags(QtCore.Qt.ItemFlag.ItemIsEnabled)
+                item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter |
+                                      QtCore.Qt.AlignmentFlag.AlignVCenter)
                 rowItems.append(item)
                 table.setItem(row, col, item)
             tableItems.append(rowItems)
@@ -107,7 +109,7 @@ class MainWindow(QtWidgets.QMainWindow):
         Returns a list of TableWidgetItems for the index vector:
         each of them is configured for the specific default.
         """
-        return self.makeTableItems(self.ui.tableIndexVector, 1, 12)
+        return MainWindow.makeTableItems(self.ui.tableIndexVector, 1, 12)
 
     def setupModalComplementTable(self):
         """
@@ -121,7 +123,7 @@ class MainWindow(QtWidgets.QMainWindow):
         table.setColumnWidth(0, 55)
         table.setColumnWidth(1, 100)
         table.setColumnWidth(2, 55)
-        return self.makeTableItems(table, 3, 3)
+        return MainWindow.makeTableItems(table, 3, 3)
 
     def setupTargetSCMemberTable(self):
         """
@@ -138,7 +140,7 @@ class MainWindow(QtWidgets.QMainWindow):
         table.setColumnWidth(2, 80)
         table.setColumnWidth(3, 140)
         table.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
-        return self.makeTableItems(table, 20, 5)
+        return MainWindow.makeTableItems(table, 20, 5)
 
     def setupModalSetComplexTables(self):
         """
@@ -163,9 +165,9 @@ class MainWindow(QtWidgets.QMainWindow):
             if i >= 1:
                 tables[i].setColumnWidth(4, 50)
             i += 1
-        tableDict = dict([("3", self.makeTableItems(tables[0], 7, 4)),
-                          ("4", self.makeTableItems(tables[1], 7, 5)),
-                          ("6", self.makeTableItems(tables[2], 7, 5))])
+        tableDict = dict([("3", MainWindow.makeTableItems(tables[0], 7, 4)),
+                          ("4", MainWindow.makeTableItems(tables[1], 7, 5)),
+                          ("6", MainWindow.makeTableItems(tables[2], 7, 5))])
         return tableDict
 
     def makeConnections(self):
