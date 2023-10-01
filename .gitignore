@@ -10,10 +10,10 @@ __pycache__/
 .DS_Store
 
 # QtDesigner directory
-#QtDesigner/
+QtDesigner/
 
 # IconDesign directory
-IconDesign/
+#IconDesign/
 
 # AppBuild directory
 AppBuild/
