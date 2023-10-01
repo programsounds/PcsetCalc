@@ -145,10 +145,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setupModalSetComplexTables(self):
         """
-        Returns a dict of 3 key/val pairs where key is the cardinality of MSC members
-        of the table, and val is a list of TableWidgetItems structured for the table
-        showing MSC members. The structure of each list is the same except for the last
-        column--there is no Z-corr. column for the table of trichordal MSC members.
+        Returns a dict of 3 key/val pairs where key is the cardinality of
+        MSC members of the table, and val is a list of TableWidgetItems
+        structured for the table showing MSC members. The structure of each
+        list is the same except for the last column--there is no Z-corr.
+        column for the table of trichordal MSC members.
             [[SN, MA, sym, count, (Z-corr)],
              [SN, MA, sym, count, (Z-corr)],
              ...
@@ -222,8 +223,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableMSCHexachords.cellDoubleClicked.connect(
             lambda row, col: self.findMSCSCMembers(self.ui.tableMSCHexachords, row, col))
         # Custom signals
-        self.threadMIDI.message.connect(self.midiInput, QtCore.Qt.QueuedConnection)
-        self.threadOSC.message.connect(self.updatePCSet, QtCore.Qt.QueuedConnection)
+        self.threadMIDI.message.connect(self.midiInput,
+                                        QtCore.Qt.ConnectionType.QueuedConnection)
+        self.threadOSC.message.connect(self.updatePCSet,
+                                       QtCore.Qt.ConnectionType.QueuedConnection)
         self.connectionDialog.message.connect(self.setPorts)
         # Show dialog boxes
         self.ui.actionMIDI_OSC.triggered.connect(self.showConnectionDialog)
