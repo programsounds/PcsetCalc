@@ -139,7 +139,8 @@ class MainWindow(QtWidgets.QMainWindow):
         table.setColumnWidth(1, 60)
         table.setColumnWidth(2, 80)
         table.setColumnWidth(3, 140)
-        table.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)
+        table.horizontalHeader().setSectionResizeMode(4,
+                                                      QtWidgets.QHeaderView.ResizeMode.Stretch)
         return MainWindow.makeTableItems(table, 20, 5)
 
     def setupModalSetComplexTables(self):
