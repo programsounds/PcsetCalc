@@ -931,7 +931,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 members = self.pcset.complementation(pf)
             # members is a variable for the target SC members: it is a list
             # of tuples, each tuple contains two sets ({memberPCs}, {diffPCs}).
-            if members != []:
+            if members:
                 row = 0
                 for member, diff in members:
                     m, d = Pcset(member), Pcset(diff)
@@ -1103,7 +1103,8 @@ class WorkerMIDI(QtCore.QThread):
             # Consolidate all the event data from the ring buffer
             while True:
                 poll = self.midiin.get_message()  # poll = ([message], deltaTime)
-                if poll is None: break
+                if poll is None:
+                    break
                 events.append(poll[0])
             # Iterate through events
             if events:
@@ -1183,4 +1184,4 @@ if __name__ == "__main__":
     form.startWorkerMIDI()
     form.startWorkerOSC()
     form.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
