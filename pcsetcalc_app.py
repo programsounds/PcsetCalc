@@ -174,10 +174,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def makeConnections(self):
         """Make signal-slot connections"""
-        # Membership update of the pc set through button interaction
+        # Membership update of the pcset through button interaction
         for i in range(12):
             self.pcBtns[i].released.connect(lambda pc=i: self.inputPC(pc, self.pcBtns[pc].isChecked()))
-        # Reset pc set
+        # Reset pcset
         self.ui.btnReset.released.connect(self.resetPCSet)
         # Create Tn transformation
         self.ui.comboBoxTn.activated.connect(self.transpose)
@@ -191,7 +191,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.comboBoxTargetSCs.activated.connect(self.createTargetSCMembers)
         # Retrigger the output of the target SC menu
         self.ui.btnTargetSCRetrig.released.connect(self.createTargetSCMembers)
-        # Change the current pc set to the selected target SC member
+        # Change the current pcset to the selected target SC member
         self.ui.tableTargetSCMembers.verticalHeader().sectionClicked.connect(self.changeToTargetSCMember)
         # Undo the previous operation
         self.ui.btnUndo.released.connect(self.undo)
@@ -298,7 +298,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.summary = self.setSummary(self.pcset)
 
     def resetPCSet(self):
-        """Clears the pc set and reset the display"""
+        """Clears the pcset and reset the display"""
         self.archive()
         self.pcset = Pcset({})
         self.resetProfile()
@@ -323,7 +323,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.summary = ""
 
     def archive(self):
-        """Archives the current pc set to undoStack"""
+        """Archives the current pcset to undoStack"""
         self.undoStack.insert(0, self.pcset)
         if len(self.undoStack) > 10:
             self.undoStack = self.undoStack[:10]
@@ -579,52 +579,52 @@ class MainWindow(QtWidgets.QMainWindow):
         self.resetCollectionPCs()
 
     def showPCBtns(self):
-        """Check the pcBtns with the updated pc set"""
+        """Check the pcBtns with the updated pcset"""
         for pc in self.pcset:
             self.pcBtns[pc].setChecked(True)
 
     def showNormalForm(self):
-        """Show the normal form of the updated pc set"""
+        """Show the normal form of the updated pcset"""
         s = ",".join(str(pc) for pc in self.nf)
         self.ui.lineEditNF.setText(s)
 
     def showPrimeForm(self):
-        """Show the prime form of the updated pc set"""
+        """Show the prime form of the updated pcset"""
         pf = toPFStr(self.pf)
         self.ui.lineEditPF.setText(pf)
 
     def showSetName(self):
-        """Show the set name of the updated pc set"""
+        """Show the set name of the updated pcset"""
         self.ui.lineEditSN.setText(self.sn)
 
     def showTransformationLevel(self):
-        """Show the Tn/TnI transformation level of the updated pc set"""
+        """Show the Tn/TnI transformation level of the updated pcset"""
         self.ui.lineEditLevel.setText(self.lvl)
 
     def showModalAttributes(self):
-        """Show the modal attributes of the updated pc set"""
+        """Show the modal attributes of the updated pcset"""
         s = " ".join(self.matts)
         self.ui.lineEditMA.setText(s)
 
     def showICV(self):
-        """Show the ICV of the updated pc set"""
+        """Show the ICV of the updated pcset"""
         s = "".join(str(ic) for ic in self.icv)
         self.ui.lineEditICV.setText(s)
 
     def showIndexVector(self):
-        """Show the index vector of the updated pc set"""
+        """Show the index vector of the updated pcset"""
         col = 0
         for item in self.ivTable:
             item.setText(str(self.iv[col]))
             col += 1
 
     def showLiteralComplement(self):
-        """Show the literal complement of the updated pc set"""
+        """Show the literal complement of the updated pcset"""
         s = ",".join(str(pc) for pc in self.lcomp)
         self.ui.lineEditLComp.setText(s)
 
     def showAbstractComplement(self):
-        """Show the abstract complement of the updated pc set"""
+        """Show the abstract complement of the updated pcset"""
         # Show the prime form
         pf = toPFStr(self.acomp)
         self.ui.lineEditAComp.setText(pf)
@@ -636,7 +636,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.lineEditACompSN.setText(sn)
 
     def showZCorrespondent(self):
-        """Show the Z-correspondent of the updated pc set"""
+        """Show the Z-correspondent of the updated pcset"""
         # Show the set name
         self.ui.lineEditZCorrSN.setText(self.zcorr)
         # Show the prime form
@@ -648,7 +648,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def showModalComplements(self):
         """
-        Show the modal complements of the updated pc set.
+        Show the modal complements of the updated pcset.
         Display by setting str to the TableWidgetItems in self.mcompTable
         which is structured as a 3x3 table as:
             [[refCol, mcomp, SN],
@@ -857,7 +857,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def undo(self):
         """
-        Undoes the previous operation: change the current pc set to that
+        Undoes the previous operation: change the current pcset to that
         at the index 0 in the undo stack.
         """
         if len(self.undoStack) != 0:
@@ -866,7 +866,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def redo(self):
         """
-        Redoes the previously undone operation: change to the current pc set
+        Redoes the previously undone operation: change to the current pcset
         to that at the last index in the redo stack.
         """
         if len(self.redoStack) != 0:
@@ -880,7 +880,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.resetTargetSCMemberTable()
 
     def transpose(self):
-        """Create Tn transformation from the current pc set"""
+        """Create Tn transformation from the current pcset"""
         n = self.ui.comboBoxTn.currentIndex()
         if (n == 0) or (self.card == 0):
             self.tn = []
@@ -892,7 +892,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.lineEditTn.setText(s)
 
     def applyTn(self):
-        """Update the current pc set with the Tn transformation"""
+        """Update the current pcset with the Tn transformation"""
         if len(self.tn) != 0:
             self.updatePCSet(self.tn)
 
@@ -908,7 +908,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.lineEditTnI.setText(s)
 
     def applyTnI(self):
-        """Update the current pc set with the TnI transformation"""
+        """Update the current pcset with the TnI transformation"""
         if len(self.tni) != 0:
             self.updatePCSet(self.tni)
 
@@ -952,7 +952,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def changeToTargetSCMember(self, n):
         """
-        Change the current pc set to the selected member of the target
+        Change the current pcset to the selected member of the target
         SC in the table.
 
         :param n: an int for the clicked vertical header index.
