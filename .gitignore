@@ -9,11 +9,8 @@ __pycache__/
 # Ignore macOS system files
 .DS_Store
 
-# QtDesigner directory
-QtDesigner/
-
 # IconDesign directory
-#IconDesign/
+IconDesign/
 
 # AppBuild directory
 AppBuild/
