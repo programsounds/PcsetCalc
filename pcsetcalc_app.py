@@ -126,7 +126,7 @@ class MainWindow(QtWidgets.QMainWindow):
         table.setColumnWidth(2, 55)
         return MainWindow.makeTableItems(table, 3, 3)
 
-    def setupTargetSCMemberTable(self):
+    def setupTargetSCMemberTable(self) -> List[List[QtWidgets.QTableWidgetItem]]:
         """
         Returns a list of TableWidgetItems for the target SC members.
         The list is structured for 15x5 table as:
