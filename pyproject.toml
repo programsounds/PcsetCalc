@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.9"
 pyqt6 = "^6.5.2"
 pcpy = "^0.1.0"
+python-rtmidi = "^1.5.6"
+oscpy = "^0.6.0"
 
 
 [build-system]
