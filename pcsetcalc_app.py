@@ -6,12 +6,16 @@ import json
 from typing import List, Dict
 from PyQt6 import QtCore, QtWidgets
 import rtmidi
-import OSC
+from oscpy.server import OSCThreadServer
 from pcpy.pcset import Pcset
 from pcpy.query import toPFStr, fromPFStr, catalog
 import pcpy.constants as c
 from pcsetcalc_main_ui import Ui_MainWindow
 from pcsetcalc_connection_ui import Ui_ConnectionDialog
+
+# TODO: constancts here
+SERVER_ADDRESS = "127.0.0.1"
+OSC_ADDRESS = b"/noteData"
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -67,8 +71,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.threadMIDI = WorkerMIDI()
         self.threadMIDI.setInputPort(self.midiInPort)
         # Worker thread for OSC input
-        receiveAddress = ("127.0.0.1", self.udpPort)
-        self.threadOSC = WorkerOSC(receiveAddress)
+        self.threadOSC = WorkerOSC(self.udpPort)
         # Initialize display widgets
         self.resetTargetSCMenu()  # Target set-class menu
         # Set up dialog objects
@@ -271,6 +274,10 @@ class MainWindow(QtWidgets.QMainWindow):
         """Starts the worker thread for OSC input"""
         self.threadOSC.start()
 
+    def closeServerSocket(self):
+        """Closes the OSC server socket"""
+        self.threadOSC.close()
+
     def updatePCSet(self, pcs, archive=True):
         """Mutate the current set to the input set"""
         if archive:
@@ -336,8 +343,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setUDPPort(self, port):
         """Sets the UDP port to the one selected in the connection window"""
-        # As pyOSC causes an error on closing socket, changing UDP port cannot be
-        #   implemented as follow. For now, after changing the port, just restart
+        # TODO:As pyOSC causes an error on closing socket, changing UDP port cannot be
+        #   implemented as follows. For now, after changing the port, just restart
         #   the program to make the change in effect.
         # self.threadOSC.close()
         # self.threadOSC.exit()
@@ -1141,18 +1148,13 @@ class WorkerOSC(QtCore.QThread):
     # Custom Qt signal
     message = QtCore.pyqtSignal(set)
 
-    def __init__(self, receiveAddress, parent=None):
+    def __init__(self, udpPort, parent=None):
         QtCore.QThread.__init__(self, parent)
-        self.server = OSC.OSCServer(receiveAddress)
-        # Registering message-handlers
-        self.server.addDefaultHandlers()
-        self.server.addMsgHandler("/noteData", self.noteHandler)
-
-    def checkHandlers(self):
-        """Checks the registered handlers"""
-        print("Registered callback-functions are:")
-        for address in self.server.getOSCAddressSpace():
-            print(address)
+        print("Starting OSC server (receive at port {})...".format(udpPort))
+        self.server = OSCThreadServer()
+        self.socket = self.server.listen(address=SERVER_ADDRESS,
+                                         port=udpPort, default=True)
+        self.server.bind(OSC_ADDRESS, self.noteHandler)
 
     def noteHandler(self, address, typetag, data, clientAddress):
         """
@@ -1166,16 +1168,10 @@ class WorkerOSC(QtCore.QThread):
         pcs = {note % 12 for note in data}
         self.message.emit(pcs)
 
-    def run(self):
-        """Runs server as a multi-threaded processing"""
-        self.server.serve_forever()
-
     def close(self):
         """Closes the server socket"""
-        # close() causes select.error: (9, 'Bad file descriptor')
-        #   For now don't use this method--pyOSC module doesn't offer safe close yet!
-        # self.server.close()
-        pass
+        print("Closing OSC server...")
+        self.server.stop(self.socket)
 
 
 if __name__ == "__main__":
@@ -1184,4 +1180,5 @@ if __name__ == "__main__":
     form.startWorkerMIDI()
     form.startWorkerOSC()
     form.show()
+    app.aboutToQuit.connect(form.closeServerSocket)
     sys.exit(app.exec())
