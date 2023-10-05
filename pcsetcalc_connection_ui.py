@@ -7,7 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+import pcsetcalc_resources_rc
 
 class Ui_ConnectionDialog(object):
     def setupUi(self, ConnectionDialog):
