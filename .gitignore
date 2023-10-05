@@ -9,11 +9,5 @@ __pycache__/
 # Ignore macOS system files
 .DS_Store
 
-# IconDesign directory
-IconDesign/
-
-# AppBuild directory
-AppBuild/
-
 # Miscellaneous files folder
 Misc/

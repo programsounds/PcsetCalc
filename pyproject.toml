@@ -6,7 +6,7 @@ authors = ["Yota Kobayashi <yota@programsounds.net>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.13"
 pyqt6 = "^6.5.2"
 pcpy = "^0.1.0"
 python-rtmidi = "^1.5.6"
