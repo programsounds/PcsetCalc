@@ -14,9 +14,13 @@ from pcsetcalc_main_ui import Ui_MainWindow
 from pcsetcalc_connection_ui import Ui_ConnectionDialog
 
 # TODO: constancts here
+STATUS_BYTE_NOTE_ON = 144  # MIDI channel 1
+STATUS_BYTE_CONTROL_CHANGE = 176  # MIDI channel 1
+CC_SUSTAIN = 11  # MIDI CC to use for sustain pedal (11 = expression controller)
+SUSTAIN_THRESH = 110  # Threshold for sustain pedal (ON if less than thresh)
 SERVER_ADDRESS = "127.0.0.1"
 OSC_ADDRESS = b"/noteData"
-
+MIDI_MESSAGE_POLL_INTERVAL = 10  # Polling interval for MIDI messages (ms)
 
 class MainWindow(QtWidgets.QMainWindow):
     """Main application window"""
@@ -1067,6 +1071,7 @@ class WorkerMIDI(QtCore.QThread):
         """"Sets MIDI input device"""
         self.midiin.close_port()
         self.midiin.open_port(n)
+        print(f"Set MIDI input port to {self.ports[n]}")
 
     def getInputPorts(self):
         """Returns available MIDI input ports"""
@@ -1107,8 +1112,6 @@ class WorkerMIDI(QtCore.QThread):
         """
         noteOffs = set([])    # Pitches for suspended note-off messages
         sustainState = False  # Damper pedal (sustain) status
-        sustainThresh = 110   # Sustain threshold: on if less than 110
-        ccSustain = 11
         # MIDI event loop
         while True:
             events = []
@@ -1122,8 +1125,8 @@ class WorkerMIDI(QtCore.QThread):
             if events:
                 for msg in events:  # msg = [status, data1, data2]
                     # Sustain input
-                    if msg[0] == 176 and msg[1] == ccSustain:
-                        prev, current = sustainState, bool(msg[2] < sustainThresh)
+                    if msg[0] == STATUS_BYTE_CONTROL_CHANGE and msg[1] == CC_SUSTAIN:
+                        prev, current = sustainState, bool(msg[2] < SUSTAIN_THRESH)
                         # Release the buffered note-offs if sustain state changes from True to False
                         if prev and not current:
                             for pitch in noteOffs:
@@ -1131,7 +1134,7 @@ class WorkerMIDI(QtCore.QThread):
                             noteOffs.clear()
                         sustainState = current  # Update sustain state
                     # Note input
-                    if msg[0] == 144:
+                    if msg[0] == STATUS_BYTE_NOTE_ON:
                         pitch, state = msg[1], bool(msg[2])
                         # Note on
                         if state:
@@ -1143,8 +1146,8 @@ class WorkerMIDI(QtCore.QThread):
                                 noteOffs |= {pitch}
                             else:
                                 self.setStates(pitch, False)
-            # Process buffered MIDI messages at every 10 ms
-            self.msleep(10)
+            # Process buffered MIDI messages at every MIDI_MESSAGE_POLL_INTERVAL ms
+            self.msleep(MIDI_MESSAGE_POLL_INTERVAL)
 
 
 class WorkerOSC(QtCore.QThread):
