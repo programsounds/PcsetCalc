@@ -1,7 +1,7 @@
 # pcsetcalc_app.py
 
 import sys
-import os.path
+import os
 import json
 from typing import List, Dict
 from PyQt6 import QtCore, QtWidgets
@@ -62,7 +62,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.undoStack = []  # Undo stack
         self.redoStack = []  # Redo stack
         # Recall preferences
-        filename = os.path.join(os.path.dirname(__file__), "preferences.json")
+        if getattr(sys, 'frozen', False):
+            # If the application is run as a bundle
+            base_dir = sys._MEIPASS  # _MEIPASS is added by PyInstaller at runtime
+        else:
+            base_dir = os.path.dirname(__file__)
+        filename = os.path.join(base_dir, "preferences.json")
         with open(filename, "r") as f:
             pref = json.load(f)
         self.midiInPort = pref["MIDIIn"]
