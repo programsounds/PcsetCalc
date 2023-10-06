@@ -1164,14 +1164,11 @@ class WorkerOSC(QtCore.QThread):
                                          port=udpPort, default=True)
         self.server.bind(OSC_ADDRESS, self.noteHandler)
 
-    def noteHandler(self, address, typetag, data, clientAddress):
+    def noteHandler(self, *data):
         """
         Note data from NAP in a list such as [74, 69, 76, 62].
 
-        :param address: Server OSC address (i.e., "/noteData").
-        :param typetag: i for the number of notes as each note data is an int.
         :param data: a list containing note data
-        :param clientAddress: client address (IP address, port)
         """
         pcs = {note % 12 for note in data}
         self.message.emit(pcs)
