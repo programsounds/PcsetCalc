@@ -72,11 +72,11 @@ class MainWindow(QtWidgets.QMainWindow):
         if getattr(sys, 'frozen', False):
             # If the application is run as a bundle
             # noinspection PyProtectedMember
-            base_dir = sys._MEIPASS  # _MEIPASS is added by PyInstaller at runtime
+            baseDir = sys._MEIPASS  # _MEIPASS is added by PyInstaller at runtime
         else:
-            base_dir = os.path.dirname(__file__)
-        filename = os.path.join(base_dir, "preferences.json")
-        with open(filename, "r") as f:
+            baseDir = os.path.dirname(__file__)
+        self.prefFile = os.path.join(baseDir, "preferences.json")
+        with open(self.prefFile, "r") as f:
             pref = json.load(f)
         self.midiInPort = pref["MIDIIn"]
         self.udpPort = pref["OSC"]
@@ -381,7 +381,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # If either of the ports are changed, write the current settings to the pref file.
         if count > 0:
             pref = {"MIDIIn": self.midiInPort, "OSC": self.udpPort}
-            with open("preferences.json", "w") as outfile:
+            with open(self.prefFile, "w") as outfile:
                 json.dump(pref, fp=outfile, indent=4, sort_keys=True)
 
     # Set profile query and calculation methods -------------------------------
