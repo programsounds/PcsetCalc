@@ -9,7 +9,19 @@ App for pcset and MSC queries and operations.
 - A handful of the MSC members are inversionally symmetrical. Note that none of the modal nexus sets are inversionally symmetrical (degree of inversional symmetry is 0).
 - For the profile of the current set, Tn/TnI transformation level of the set is shown with a single symbol for the simplicity, that is, if it is a symmetrical set, the Tn level with the smallest transposition number represents the transformation level.
 
-### Known issue
+### Dependencies
 
-- As pyOSC causes an error on the closing socket, the current UDP port cannot be changed while the program is running. For now, after changing the port in the connection window, just restart the program to make the change in effect.
-- Menubar items cannot be clicked after the app starts up until its focus is set to others and back to it.
+| Package                                           | Version | Description                                                            |
+|---------------------------------------------------|---------|------------------------------------------------------------------------|
+| [pcpy](https://pypi.org/project/pcpy/)            | 0.1.0   | A Python package for pcset operations, relation measures, and queries. |
+| [OSCpy](https://pypi.org/project/oscpy/)          | 0.6.0   | A modern implementation of OSC for python2/3                           |
+| [rtmini](https://pypi.org/project/python-rtmidi/) | 1.5.6   | A Python binding for the RtMidi C++ library                            |
+| [PyQt6](https://pypi.org/project/PyQt6/)          | 6.5.2   | Python bindings for the Qt cross-platform application toolkit          |
+
+
+
+### To Do
+
+- Documentation
+
+
