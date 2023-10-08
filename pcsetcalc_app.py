@@ -3,6 +3,7 @@
 import sys
 import os
 import json
+import time
 from typing import List, Dict
 from PyQt6 import QtCore, QtWidgets
 import rtmidi
@@ -18,9 +19,11 @@ STATUS_BYTE_NOTE_ON = 144  # MIDI channel 1
 STATUS_BYTE_CONTROL_CHANGE = 176  # MIDI channel 1
 CC_SUSTAIN = 11  # MIDI CC to use for sustain pedal (11 = expression controller)
 SUSTAIN_THRESH = 110  # Threshold for sustain pedal (ON if less than thresh)
+
 SERVER_ADDRESS = "127.0.0.1"
 OSC_ADDRESS = b"/noteData"
 MIDI_MESSAGE_POLL_INTERVAL = 10  # Polling interval for MIDI messages (ms)
+
 
 class MainWindow(QtWidgets.QMainWindow):
     """Main application window"""
@@ -68,6 +71,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Recall preferences
         if getattr(sys, 'frozen', False):
             # If the application is run as a bundle
+            # noinspection PyProtectedMember
             base_dir = sys._MEIPASS  # _MEIPASS is added by PyInstaller at runtime
         else:
             base_dir = os.path.dirname(__file__)
@@ -236,8 +240,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableMSCHexachords.cellDoubleClicked.connect(
             lambda row, col: self.findMSCSCMembers(self.ui.tableMSCHexachords, row, col))
         # Custom signals
+        # noinspection PyArgumentList
         self.threadMIDI.message.connect(self.midiInput,
                                         QtCore.Qt.ConnectionType.QueuedConnection)
+        # noinspection PyArgumentList
         self.threadOSC.message.connect(self.updatePCSet,
                                        QtCore.Qt.ConnectionType.QueuedConnection)
         self.connectionDialog.message.connect(self.setPorts)
@@ -352,14 +358,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def setUDPPort(self, port):
         """Sets the UDP port to the one selected in the connection window"""
-        # TODO:As pyOSC causes an error on closing socket, changing UDP port cannot be
-        #   implemented as follows. For now, after changing the port, just restart
-        #   the program to make the change in effect.
-        # self.threadOSC.close()
-        # self.threadOSC.exit()
-        # self.threadOSC = WorkerOSC(("127.0.0.1", self.udpPort))
-        # self.threadOSC.start()
-        pass
+        self.threadOSC.changePort(port)
 
     def setPorts(self, midiInPort, udpPort):
         """
@@ -1177,6 +1176,25 @@ class WorkerOSC(QtCore.QThread):
         """Closes the server socket"""
         print("Closing OSC server...")
         self.server.stop(self.socket)
+
+    def changePort(self, newPort):
+        """Change the server port to a newPort."""
+        # Close port
+        self.server.stop(self.socket)
+        # Terminate the entire server
+        #   self.server.listen with newPort does not work
+        self.server.terminate_server()
+        # Wait for the server thread to finish
+        self.server.join_server()
+        # Wait for the server to close
+        time.sleep(0.1)
+        # Reinitialize the server
+        self.server = OSCThreadServer()
+        # Listen on the new port
+        self.socket = self.server.listen(address=SERVER_ADDRESS,
+                                         port=newPort, default=True)
+        # Re-bind the server to handle incoming OSC messages
+        self.server.bind(OSC_ADDRESS, self.noteHandler)
 
 
 if __name__ == "__main__":
