@@ -1069,6 +1069,9 @@ class WorkerMIDI(QtCore.QThread):
     def setInputPort(self, n):
         """"Sets MIDI input device"""
         self.midiin.close_port()
+        if not self.ports:
+            print("There is no MIDI input device connected.")
+            return
         self.midiin.open_port(n)
         print(f"Set MIDI input port to {self.ports[n]}")
 
