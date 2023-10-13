@@ -1,15 +1,15 @@
 # PcsetCalc
 
-App for pcset and MSC queries and operations.
+An application for pitch-class set and modal set complex queries and operations.
 
-### Notes on symmetrical sets 
+## Notes on symmetrical sets 
 
 - The text box showing the degree of symmetry indicates whether the current set is inversionally symmetrical and has any axis of symmetry.
 - To look up the axis of symmetry (i.e., sum), check the index vector: for the axis of sum n, n is the index number which corresponds with the cardinal number of the set.  
 - A handful of the MSC members are inversionally symmetrical. Note that none of the modal nexus sets are inversionally symmetrical (degree of inversional symmetry is 0).
 - For the profile of the current set, Tn/TnI transformation level of the set is shown with a single symbol for the simplicity, that is, if it is a symmetrical set, the Tn level with the smallest transposition number represents the transformation level.
 
-### Dependencies
+## Dependencies
 
 | Package                                           | Version | Description                                                            |
 |---------------------------------------------------|---------|------------------------------------------------------------------------|
@@ -20,7 +20,7 @@ App for pcset and MSC queries and operations.
 
 
 
-### To Do
+## To Do
 
 - Documentation
 
